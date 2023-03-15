@@ -54,23 +54,13 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Altitud:' '$_altitud',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(
-              'Longitud:' '$_longitud',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Text(
-              'Latitud:' '$_latitud',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      body: InteractiveViewer(
+        minScale: 0.5,
+        maxScale: 15,
+        constrained: false,
+        child: Image(
+          image: AssetImage('assets/piso2.png'),
+          width: MediaQuery.of(context).size.width,
         ),
       ),
       floatingActionButton: FloatingActionButton(
