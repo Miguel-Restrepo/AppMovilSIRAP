@@ -47,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +60,21 @@ class _MyHomePageState extends State<MyHomePage> {
         minScale: 0.5,
         maxScale: 15,
         constrained: false,
-        child: Image(
-          image: AssetImage('assets/piso2.png'),
-          width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: <Widget>[
+            Image(
+              image: AssetImage('assets/piso2v.png'),
+              width: MediaQuery.of(context).size.width,
+            ),
+           Positioned(
+            top: MediaQuery.of(context).size.width*2.28674,
+            left: MediaQuery.of(context).size.width*0.5,
+            child: Image(
+              image: AssetImage('assets/lm.png'),
+              width: MediaQuery.of(context).size.width*0.05,
+            )
+            )
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
