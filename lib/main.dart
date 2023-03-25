@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:app_movil_sirap/gps/gps.dart';
 import 'package:geolocator/geolocator.dart';
+import 'gps/gps.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,12 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
   double _altitud = 0;
   double _longitud = 0;
   double _latitud = 0;
+  double px = 0;
+  double py = 0;
+
   Future<void> _updateGeo() async {
     _positionAc = await _determinePosition();
     setState(() {
       _altitud = _positionAc.altitude;
       _latitud = _positionAc.latitude;
       _longitud = _positionAc.longitude;
+      px = ((_longitud + 75.49389190549414) * 0.843073365285164) -
+          ((_latitud - 5.0559390694892565) * 0.53779856893334);
+      py = ((_longitud + 75.49389190549414) * 0.53779856893334) +
+          ((_latitud - 5.0559390694892565) * 0.843073365285164);
     });
   }
 
@@ -58,9 +66,34 @@ class _MyHomePageState extends State<MyHomePage> {
         minScale: 0.5,
         maxScale: 15,
         constrained: false,
-        child: Image(
-          image: AssetImage('assets/piso2.png'),
-          width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: <Widget>[
+            Image(
+              image: AssetImage('assets/piso2.png'),
+              width: MediaQuery.of(context).size.width,
+            ),
+            py <= 0 &&
+                    py >= -0.000659064055465 &&
+                    px >= 0 &&
+                    px <= 0.000138612591629
+                ? Positioned(
+                    top: (py / -0.000659064055465 - 0.005) *
+                        MediaQuery.of(context).size.width *
+                        4.5734870317002881,
+                    left: ((px / 0.000138612591629) - 0.05) *
+                        MediaQuery.of(context).size.width,
+                    child: Image(
+                      image: AssetImage('assets/xokas.png'),
+                      width: MediaQuery.of(context).size.width * 0.10,
+                    ))
+                : Positioned(
+                    top: 50,
+                    left: 50,
+                    child: Text(
+                      'longitud:${_longitud + 75.49389190549414} latidud:${_latitud - 5.0559390694892565} x:${LocationLogic.px} y:${LocationLogic.py}',
+                      style: TextStyle(color: Color.fromARGB(255, 3, 0, 0)),
+                    ))
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
